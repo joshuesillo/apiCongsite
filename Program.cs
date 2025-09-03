@@ -46,7 +46,7 @@ app.MapGet("/users", async (IMongoClient client) =>
     }
 });
 
-app.MapPost("/users", async (User user, IMongoClient client) =>
+app.MapPost("/adduser", async (User user, IMongoClient client) =>
 {
     try
     {
