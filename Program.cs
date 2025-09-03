@@ -46,7 +46,25 @@ app.MapGet("/users", async (IMongoClient client) =>
     }
 });
 
-app.MapPost("/adduser", async (User user, IMongoClient client) =>
+// GET Obtener un usuario
+app.MapGet("/users/{id}", async (String id, IMongoClient client) =>
+{
+    try
+    {
+        var database = client.GetDatabase("data");
+        var collection = database.GetCollection<User>("users");
+        var user = await collection.FindAsync(id);
+        
+        return Results.Ok(user);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        return Results.BadRequest(ex.Message);
+    }
+});
+
+app.MapPost("/users", async (User user, IMongoClient client) =>
 {
     try
     {
