@@ -31,11 +31,19 @@ app.MapGet("/", () => "Hello World!");
 
 app.MapGet("/users", async (IMongoClient client) =>
 {
-    var database = client.GetDatabase("data");
-    var collection = database.GetCollection<User>("users");
-    var users = await collection.Find(new BsonDocument()).ToListAsync();
-    
-    return Results.Ok(users);
+    Console.WriteLine("Call to /users")
+    try
+    {
+        var database = client.GetDatabase("data");
+        var collection = database.GetCollection<User>("users");
+        var users = await collection.Find(new BsonDocument()).ToListAsync();
+        
+        return Results.Ok(users);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
 });
 
 app.Run();
