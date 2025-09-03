@@ -31,7 +31,7 @@ app.MapGet("/", () => "Hello World!");
 
 app.MapGet("/users", async (IMongoClient client) =>
 {
-    Console.WriteLine("Call to /users")
+    Console.WriteLine("Call to /users");
     try
     {
         var database = client.GetDatabase("data");
