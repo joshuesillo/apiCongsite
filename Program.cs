@@ -42,7 +42,7 @@ app.MapGet("/users", async (IMongoClient client) =>
     catch (Exception ex)
     {
         Console.WriteLine($"Error: {ex.Message}");
-        return Results.BadRequest("Algo paso con la conexion al mongo");
+        return Results.BadRequest(ex.Message);
     }
 });
 
