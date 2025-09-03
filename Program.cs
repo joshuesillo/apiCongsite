@@ -43,6 +43,7 @@ app.MapGet("/users", async (IMongoClient client) =>
     catch (Exception ex)
     {
         Console.WriteLine($"Error: {ex.Message}");
+        return Results.BadRequest();
     }
 });
 
