@@ -53,7 +53,7 @@ app.MapPost("/users", async (User user, IMongoClient client) =>
         var database = client.GetDatabase("data");
         var collection = database.GetCollection<User>("users");
 
-        await collection.insertOneAsync(user);
+        await collection.InsertOneAsync(user);
         
         return Results.Created($"/users/{user.Name}", user);
     }
