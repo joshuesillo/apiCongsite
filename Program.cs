@@ -22,7 +22,21 @@ builder.Services.AddSingleton<IMongoClient>(s =>
     return client;
 });
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:5173", // URL de tu app de React
+                                              "https://192.168.132.150:5173")
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
+                      });
+});
+
 var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/", () => "Hello World!");
 
