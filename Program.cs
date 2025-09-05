@@ -5,8 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IMongoClient>(s =>
 {
-    //var connectionUri = builder.Configuration.GetConnectionString("MongoDBConnection");
-    var connectionUri = "mongodb+srv://joshuesillo:4858qwCe0AULvC8j@developing.q5tqx7j.mongodb.net/?retryWrites=true&w=majority&sslProtocols=Tls12&appName=developing";
+    var connectionUri = builder.Configuration.GetConnectionString("MongoDBConnection");
     var settings = MongoClientSettings.FromConnectionString(connectionUri);
     settings.ServerApi = new ServerApi(ServerApiVersion.V1);
     var client = new MongoClient(settings);
