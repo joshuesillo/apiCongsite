@@ -5,7 +5,8 @@ using MongoDB.Bson.Serialization.Attributes;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IMongoClient>(s =>
 {
-    var connectionUri = builder.Configuration.GetConnectionString("MongoDBConnection");
+    //var connectionUri = builder.Configuration.GetConnectionString("MongoDBConnection");
+    var connectionUri = "mongodb+srv://joshuesillo:4858qwCe0AULvC8j@developing.q5tqx7j.mongodb.net/?retryWrites=true&w=majority&sslProtocols=Tls12&appName=developing";
     var settings = MongoClientSettings.FromConnectionString(connectionUri);
     settings.ServerApi = new ServerApi(ServerApiVersion.V1);
     var client = new MongoClient(settings);
@@ -53,7 +54,12 @@ app.MapGet("/users/{id}", async (String id, IMongoClient client) =>
     {
         var database = client.GetDatabase("data");
         var collection = database.GetCollection<User>("users");
-        var user = await collection.FindAsync(id);
+        var user = await collection.Find(new BsonDocument("_id", new ObjectId(id))).FirstOrDefaultAsync();
+
+        if (user == null)
+        {
+            return Results.NotFound($"User not found");
+        }
         
         return Results.Ok(user);
     }
